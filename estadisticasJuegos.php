@@ -34,8 +34,8 @@ function menuOpciones($juegoMasVendido, $tickets)
         echo "Opción: ";
         $opcion = trim(fgets(STDIN));
         switch ($opcion)
-        {0
-1            case 1:
+        {
+            case 1:
                 echo "\nOpcion 1 \n\n";
                 $nuevaVenta = ingresarVenta();
                 $tickets[$nuevaVenta["mes"]] += $nuevaVenta["precioTicket"] * $nuevaVenta["cantTickets"];
