@@ -19,50 +19,53 @@ function main()
  */
 function menuOpciones($juegoMasVendido, $tickets)
 {
-    $opcion = 1;
-    while ($opcion != 6)
+    $opcion = null;
+
+    echo "\n";
+    echo " ----------------------MENÚ-----------------------  \n";
+    echo "| 1) Ingresar una venta                           | \n";
+    echo "| 2) Mes con mayor monto de ventas                | \n";
+    echo "| 3) Primer mes que supera un monto de ventas     | \n";
+    echo "| 4) Información de un mes                        | \n";
+    echo "| 5) Juegos mas vendidos ordenados                | \n";
+    echo "| 6) Salir del menu                               | \n";
+    echo " -------------------------------------------------  \n";
+    echo "Opción: ";
+    $opcion = trim(fgets(STDIN));
+    switch ($opcion)
     {
-        echo "\n";
-        echo " ----------------------MENÚ-----------------------  \n";
-        echo "| 1) Ingresar una venta                           | \n";
-        echo "| 2) Mes con mayor monto de ventas                | \n";
-        echo "| 3) Primer mes que supera un monto de ventas     | \n";
-        echo "| 4) Información de un mes                        | \n";
-        echo "| 5) Juegos mas vendidos ordenados                | \n";
-        echo "| 6) Salir del menu                               | \n";
-        echo " -------------------------------------------------  \n";
-        echo "Opción: ";
-        $opcion = trim(fgets(STDIN));
-        switch ($opcion)
-        {
-            case 1:
-                echo "\nOpcion 1 \n\n";
-                $nuevaVenta = ingresarVenta();
-                $tickets[$nuevaVenta["mes"]] += $nuevaVenta["precioTicket"] * $nuevaVenta["cantTickets"];
-                $juegoMasVendido = modificarJuegoMasVendido($juegoMasVendido, $nuevaVenta);
-                break;
-            case 2:
-                echo "\nOpción 2 \n\n";
-                consultaMesMayorVentas($tickets, $juegoMasVendido);
-                break;
-            case 3:
-                echo "\nOpción 3 \n\n";
-                mesSuperaMonto($tickets);
-                break;
-            case 4:
-                echo "\nOpción 4 \n\n";
-                consultaMes($tickets, $juegoMasVendido);
-                break;
-            case 5:
-                echo "\nOpción 5 \n\n";
-                ordenarMasVendido($juegoMasVendido);
-                break;
-            case 6:
-                echo "\nSalió del menú \n\n";
-                break;
-            default:
-                echo "\nOpción invalida \n\n";
-        }
+        case 1:
+            echo "\nOpcion 1 \n\n";
+            $nuevaVenta = ingresarVenta();
+            $tickets[$nuevaVenta["mes"]] += $nuevaVenta["precioTicket"] * $nuevaVenta["cantTickets"];
+            $juegoMasVendido = modificarJuegoMasVendido($juegoMasVendido, $nuevaVenta);
+            menuOpciones($juegoMasVendido, $tickets);
+            break;
+        case 2:
+            echo "\nOpción 2 \n\n";
+            consultaMesMayorVentas($tickets, $juegoMasVendido);
+            menuOpciones($juegoMasVendido, $tickets);
+            break;
+        case 3:
+            echo "\nOpción 3 \n\n";
+            mesSuperaMonto($tickets, $juegoMasVendido);
+            menuOpciones($juegoMasVendido, $tickets);
+            break;
+        case 4:
+            echo "\nOpción 4 \n\n";
+            consultaMes($tickets, $juegoMasVendido);
+            menuOpciones($juegoMasVendido, $tickets);
+            break;
+        case 5:
+            echo "\nOpción 5 \n\n";
+            ordenarMasVendido($juegoMasVendido);
+            menuOpciones($juegoMasVendido, $tickets);
+            break;
+        case 6:
+            echo "\nSalió del menú \n\n";
+            break;
+        default:
+            echo "\nOpción invalida \n\n";
     }
 }
 
@@ -98,7 +101,7 @@ function precargaTickets($juegoMasVendido)
 {
     $tickets = array();
     $i = 0;
-    while ($i < 12)
+    while ($i < count($juegoMasVendido))
     {
         $tickets[$i] = $juegoMasVendido[$i]["precioTicket"] * $juegoMasVendido[$i]["cantTickets"];
         $i++;
@@ -115,56 +118,52 @@ function precargaTickets($juegoMasVendido)
  */
 function numeroAMes($numero)
 {
-    $nombre = "invalido";
-    while ($nombre == "invalido")
+    $nombre = null;
+    switch ($numero)
     {
-        switch ($numero)
-        {
-            case 0:
-                $nombre = "enero";
-                break;
-            case 1:
-                $nombre = "febrero";
-                break;
-            case 2:
-                $nombre = "marzo";
-                break;
-            case 3:
-                $nombre = "abril";
-                break;
-            case 4:
-                $nombre = "mayo";
-                break;
-            case 5:
-                $nombre = "junio";
-                break;
-            case 6:
-                $nombre = "julio";
-                break;
-            case 7:
-                $nombre = "agosto";
-                break;
-            case 8:
-                $nombre = "septiembre";
-                break;
-            case 9:
-                $nombre = "octubre";
-                break;
-            case 10:
-                $nombre = "noviembre";
-                break;
-            case 11:
-                $nombre = "diciembre";
-                break;
-            default:
-                echo "El numero que ingreso no es valido \n";
-                echo "Ingrese un numero entre 0 y 11: ";
-                $numero = trim(fgets(STDIN));
-                break;
-        }
+        case 0:
+            $nombre = "enero";
+            break;
+        case 1:
+            $nombre = "febrero";
+            break;
+        case 2:
+            $nombre = "marzo";
+            break;
+        case 3:
+            $nombre = "abril";
+            break;
+        case 4:
+            $nombre = "mayo";
+            break;
+        case 5:
+            $nombre = "junio";
+            break;
+        case 6:
+            $nombre = "julio";
+            break;
+        case 7:
+            $nombre = "agosto";
+            break;
+        case 8:
+            $nombre = "septiembre";
+            break;
+        case 9:
+            $nombre = "octubre";
+            break;
+        case 10:
+            $nombre = "noviembre";
+            break;
+        case 11:
+            $nombre = "diciembre";
+            break;
+        default:
+            echo "Error en el número";
+            break;
     }
     return $nombre;
 }
+
 
 /**
  * Entra por parametro el nombre de un mes
@@ -176,56 +175,50 @@ function numeroAMes($numero)
  */
 function mesANumero($nombreMes)
 {
-    $indice = 99;
-    while ($indice == 99)
+    $indice = null;
+    switch ($nombreMes)
     {
-        $mesMinuscula = strtolower($nombreMes);
-        switch ($mesMinuscula)
-        {
-            case "enero":
-                $indice = 0;
-                break;
-            case "febrero":
-                $indice = 1;
-                break;
-            case "marzo":
-                $indice = 2;
-                break;
-            case "abril":
-                $indice = 3;
-                break;
-            case "mayo":
-                $indice = 4;
-                break;
-            case "junio":
-                $indice = 5;
-                break;
-            case "julio":
-                $indice = 6;
-                break;
-            case "agosto":
-                $indice = 7;
-                break;
-            case "septiembre":
-                $indice = 8;
-                break;
-            case "octubre":
-                $indice = 9;
-                break;
-            case "noviembre":
-                $indice = 10;
-                break;
-            case "diciembre":
-                $indice = 11;
-                break;
-            default:
-                $indice = 99;
-                echo "El mes que ingreso no es valido \n";
-                echo "Ingrese un mes: ";
-                $nombreMes = trim(fgets(STDIN));
-                break;
-        }
+        case "enero":
+            $indice = 0;
+            break;
+        case "febrero":
+            $indice = 1;
+            break;
+        case "marzo":
+            $indice = 2;
+            break;
+        case "abril":
+            $indice = 3;
+            break;
+        case "mayo":
+            $indice = 4;
+            break;
+        case "junio":
+            $indice = 5;
+            break;
+        case "julio":
+            $indice = 6;
+            break;
+        case "agosto":
+            $indice = 7;
+            break;
+        case "septiembre":
+            $indice = 8;
+            break;
+        case "octubre":
+            $indice = 9;
+            break;
+        case "noviembre":
+            $indice = 10;
+            break;
+        case "diciembre":
+            $indice = 11;
+            break;
+        default:
+            echo "Error en el nombre del mes";
+            break;
     }
+
     return $indice;
 }
 
@@ -237,9 +230,22 @@ function mesANumero($nombreMes)
  */
 function solicitarMes()
 {
-    echo "Ingrese un mes: ";
-    $mes = trim(fgets(STDIN));
-    return mesANumero($mes);
+    $valido = false;
+    while (!$valido)
+    {
+        echo "Ingrese un mes: ";
+        $mes = trim(fgets(STDIN));
+        $mesM = strtolower($mes);
+        if ($mesM == "enero" || $mesM == "febrero" || $mesM == "marzo" || $mesM == "abril" || $mesM == "mayo" || $mesM == "junio" || $mesM == "julio" || $mesM == "agosto" || $mesM == "septiembre" || $mesM == "octubre" || $mesM == "noviembre" || $mesM == "diciembre")
+        {
+            $valido = true;
+        }
+        else
+        {
+            echo "Mes incorrecto.\n";
+        }
+    }
+    return mesANumero($mesM);
 }
 
 /**
@@ -323,7 +329,6 @@ function modificarJuegoMasVendido($juegoMasVendido, $nuevaVenta)
     $mesActual = $nuevaVenta["mes"];
     if (empty($juegoMasVendido[$mesActual]) || ($nuevaVenta["precioTicket"] * $nuevaVenta["cantTickets"]) > ($juegoMasVendido[$mesActual]["precioTicket"] * $juegoMasVendido[$mesActual]["cantTickets"]))
     {
-        print_r($nuevaVenta);
         $juegoMasVendido[$mesActual] = array(
             "juego" => $nuevaVenta["juego"],
             "precioTicket" => $nuevaVenta["precioTicket"],
@@ -381,7 +386,7 @@ function consultaMesMayorVentas($tickets, $juegoMasVendido)
  * un mes que supere el monto ingresado
  * @param array 
  */
-function mesSuperaMonto($tickets)
+function mesSuperaMonto($tickets, $juegoMasVendido)
 {
     echo "Monto: $";
     $monto = trim(fgets(STDIN));
@@ -389,7 +394,7 @@ function mesSuperaMonto($tickets)
     $i = 0;
     if (!empty($tickets))
     {
-        while ($encontrado != true && $i < 12)
+        while (!$encontrado && $i < count($tickets))
         {
             if ($tickets[$i] > $monto)
             {
@@ -403,7 +408,8 @@ function mesSuperaMonto($tickets)
     }
     if ($encontrado)
     {
-        echo "El primer mes en superar el monto ingresado es: " . numeroAMes($i) . "\n";
+        echo "El primer mes en superar el monto ingresado es: \n";
+        infoMes($tickets, $juegoMasVendido, $i);
     }
     else
     {
@@ -435,9 +441,7 @@ function infoMes($tickets, $juegoMasVendido, $mesElegido)
  */
 function consultaMes($tickets, $juegoMasVendido)
 {
-    echo "Mes: ";
-    $mesElegido = trim(fgets(STDIN));
-    $numeroMes = mesANumero($mesElegido);
+    $numeroMes = solicitarMes();
     if (empty($tickets[$numeroMes]) || empty($juegoMasVendido[$numeroMes]))
     {
         echo "Faltan los datos del mes ingresado.\n";
@@ -463,7 +467,7 @@ function ordenarMasVendido($juegoMasVendido)
     if (!empty($juegoMasVendido))
     {
         $i = 0;
-        while ($i < 12)
+        while ($i < count($juegoMasVendido))
         {
             if (!empty($juegoMasVendido[$i]))
             {
