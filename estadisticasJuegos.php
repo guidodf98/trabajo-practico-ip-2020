@@ -12,7 +12,7 @@ function main()
 }
 
 /**
- * Se le pide al usuario que ingrese una opción
+ * Se le pide al usuario que ingrese una opción del menú
  * Si la opción es valida se ejecuta, sino se pregunta de nuevo
  * @param array 
  * @param array 
@@ -20,52 +20,49 @@ function main()
 function menuOpciones($juegoMasVendido, $tickets)
 {
     $opcion = null;
-
-    echo "\n";
-    echo " ----------------------MENÚ-----------------------  \n";
-    echo "| 1) Ingresar una venta                           | \n";
-    echo "| 2) Mes con mayor monto de ventas                | \n";
-    echo "| 3) Primer mes que supera un monto de ventas     | \n";
-    echo "| 4) Información de un mes                        | \n";
-    echo "| 5) Juegos mas vendidos ordenados                | \n";
-    echo "| 6) Salir del menu                               | \n";
-    echo " -------------------------------------------------  \n";
-    echo "Opción: ";
-    $opcion = trim(fgets(STDIN));
-    switch ($opcion)
+    while ($opcion != 6)
     {
-        case 1:
-            echo "\nOpcion 1 \n\n";
-            $nuevaVenta = ingresarVenta();
-            $tickets[$nuevaVenta["mes"]] += $nuevaVenta["precioTicket"] * $nuevaVenta["cantTickets"];
-            $juegoMasVendido = modificarJuegoMasVendido($juegoMasVendido, $nuevaVenta);
-            menuOpciones($juegoMasVendido, $tickets);
-            break;
-        case 2:
-            echo "\nOpción 2 \n\n";
-            consultaMesMayorVentas($tickets, $juegoMasVendido);
-            menuOpciones($juegoMasVendido, $tickets);
-            break;
-        case 3:
-            echo "\nOpción 3 \n\n";
-            mesSuperaMonto($tickets, $juegoMasVendido);
-            menuOpciones($juegoMasVendido, $tickets);
-            break;
-        case 4:
-            echo "\nOpción 4 \n\n";
-            consultaMes($tickets, $juegoMasVendido);
-            menuOpciones($juegoMasVendido, $tickets);
-            break;
-        case 5:
-            echo "\nOpción 5 \n\n";
-            ordenarMasVendido($juegoMasVendido);
-            menuOpciones($juegoMasVendido, $tickets);
-            break;
-        case 6:
-            echo "\nSalió del menú \n\n";
-            break;
-        default:
-            echo "\nOpción invalida \n\n";
+        echo "\n";
+        echo " ----------------------MENÚ-----------------------  \n";
+        echo "| 1) Ingresar una venta                           | \n";
+        echo "| 2) Mes con mayor monto de ventas                | \n";
+        echo "| 3) Primer mes que supera un monto de ventas     | \n";
+        echo "| 4) Información de un mes                        | \n";
+        echo "| 5) Juegos mas vendidos ordenados                | \n";
+        echo "| 6) Salir del menu                               | \n";
+        echo " -------------------------------------------------  \n";
+        echo "Opción: ";
+        $opcion = trim(fgets(STDIN));
+        switch ($opcion)
+        {
+            case 1:
+                echo "\nOpcion 1 \n\n";
+                $nuevaVenta = ingresarVenta();
+                $tickets[$nuevaVenta["mes"]] += $nuevaVenta["precioTicket"] * $nuevaVenta["cantTickets"];
+                $juegoMasVendido = modificarJuegoMasVendido($juegoMasVendido, $nuevaVenta);
+                break;
+            case 2:
+                echo "\nOpción 2 \n\n";
+                consultaMesMayorVentas($tickets, $juegoMasVendido);
+                break;
+            case 3:
+                echo "\nOpción 3 \n\n";
+                consultaMesSuperaMonto($tickets, $juegoMasVendido);
+                break;
+            case 4:
+                echo "\nOpción 4 \n\n";
+                consultaMes($tickets, $juegoMasVendido);
+                break;
+            case 5:
+                echo "\nOpción 5 \n\n";
+                ordenarMasVendido($juegoMasVendido);
+                break;
+            case 6:
+                echo "\nSalió del menú \n\n";
+                break;
+            default:
+                echo "\nOpción invalida \n\n";
+        }
     }
 }
 
@@ -93,7 +90,7 @@ function precargaJuegoMasVendido()
 }
 
 /**
- * Ingresa la estructura juegoMasVendido y se utilizan sus datos para completar los del arreglo tickets
+ * Ingresa la estructura precargada de juegoMasVendido y se utilizan sus datos para completar los del arreglo tickets
  * @param array 
  * @return array
  */
@@ -112,7 +109,6 @@ function precargaTickets($juegoMasVendido)
 /**
  * Lee un número
  * Si el número esta entre 0 y 11 devuele el mes correspondiente
- * Caso contrario vuelve a preguntar por un número valido
  * @param int 
  * @return string
  */
@@ -167,9 +163,7 @@ function numeroAMes($numero)
 
 /**
  * Entra por parametro el nombre de un mes
- * Se cambia el nombre a minusculas
  * Lee el mes y devuelve el numero que le corresponde
- * Si el nombre de mes no es valido, se vuelve a preguntar
  * @param string 
  * @return int
  */
@@ -218,14 +212,14 @@ function mesANumero($nombreMes)
             echo "Error en el nombre del mes";
             break;
     }
-
     return $indice;
 }
 
 /**
- * Solicita al usuario que ingrese un mes
- * Se envia el mes a la funcion mesANumero
- * Retorna el indice del mes
+ * Solicita al usuario que ingrese un mes y se transforma a minusculas
+ * Se verifica si es un nombre de mes valido
+ * Si no es valido se vuelve a preguntar, caso contrario
+ * se envia el mes a la funcion mesANumero y retorna
  * @return int
  */
 function solicitarMes()
@@ -250,7 +244,7 @@ function solicitarMes()
 
 /**
  * Se muestra al usuario los juegos disponibles
- * Se pide y lee la opción ingresada
+ * Se pide una opción
  * Si es una opción valida se devuelve el string del juego
  * Si es invalida se vuelve a pedir una opción
  * @return string
@@ -316,7 +310,7 @@ function ingresarVenta()
 }
 
 /**
- * Guardo el mes actual en una variable
+ * Guardo el mes actual de la venta en una variable
  * Si no hay datos sobre ventas en el mes 
  * o el monto total del juego ingresado supera al mayor monto total del juego vendido el mismo mes
  * se ingresa al arreglo el monto total del juego nuevo
@@ -339,77 +333,64 @@ function modificarJuegoMasVendido($juegoMasVendido, $nuevaVenta)
 }
 
 /**
- * Si tickets tiene datos guardados se recorre el arreglo
- * Si es la primera comparación se guarda el primer monto en un auxiliar (mayorMonto)
- * Luego se sigue preguntado si el monto actual es mayor al mayorMonto, de ser verdadero se reemplaza
- * Si se encontró el mes, se imprime la información completa del mismo
+ * Precondicion: $tickets no debe ser vacio
+ * Se envia $tickets a mesMayorVentas() que devuelve el indice del mes de mayor ventas
+ * Se imprime la informacion de ese mes
  * @param array 
  * @param array 
  */
 function consultaMesMayorVentas($tickets, $juegoMasVendido)
 {
-    $mayorMonto = null;
-    $resultado = null;
-    if (!empty($tickets))
-    {
-        foreach ($tickets as $mes => $monto)
-        {
-            if ($monto != null)
-            {
-                if ($mayorMonto == null)
-                {
-                    $mayorMonto = $monto;
-                    $resultado = $mes;
-                }
-                elseif ($monto > $mayorMonto)
-                {
-                    $mayorMonto = $monto;
-                    $resultado = $mes;
-                }
-            }
-        }
-    }
-    if ($resultado != null)
-    {
-        echo "El mes con mayor monto de ventas es: \n";
-        infoMes($tickets, $juegoMasVendido, $resultado);
-    }
-    else
-    {
-        echo "No hay ventas registradas hasta el momento.\n";
-    }
+    $resultado = mesMayorVentas($tickets);
+    echo "El mes con mayor monto de ventas es: \n";
+    infoMes($tickets, $juegoMasVendido, $resultado);
 }
 
 /**
- * Se pide un monto
- * Si tickets tiene valores guardados se recorre el arreglo hasta encontrar
- * un mes que supere el monto ingresado
+ * Si es la primera comparación se guarda el primer monto en un auxiliar (mayorMonto)
+ * Luego se sigue preguntado si el monto actual es mayor al mayorMonto, de ser verdadero se reemplaza
+ * Devuelve el indice del mes con mayor monto
  * @param array 
+ * @return int
  */
-function mesSuperaMonto($tickets, $juegoMasVendido)
+function mesMayorVentas($tickets)
 {
-    echo "Monto: $";
-    $monto = trim(fgets(STDIN));
-    $encontrado = false;
-    $i = 0;
-    if (!empty($tickets))
+    $mayorMonto = null;
+    $resultado = null;
+    foreach ($tickets as $mes => $monto)
     {
-        while (!$encontrado && $i < count($tickets))
+        if ($monto != null)
         {
-            if ($tickets[$i] > $monto)
+            if ($mayorMonto == null)
             {
-                $encontrado = true;
+                $mayorMonto = $monto;
+                $resultado = $mes;
             }
-            else
+            elseif ($monto > $mayorMonto)
             {
-                $i++;
+                $mayorMonto = $monto;
+                $resultado = $mes;
             }
         }
     }
-    if ($encontrado)
+    return $resultado;
+}
+
+/**
+ * Lee el monto ingresado por el usuario
+ * Envía el monto a mesSuperaMonto que devuelve un indice
+ * Si el indice es distinto de -1 muestra por pantalla la información del mes correspondiente
+ * @param array 
+ */
+function consultaMesSuperaMonto($tickets, $juegoMasVendido)
+{
+    echo "Monto: $";
+    $monto = trim(fgets(STDIN));
+    $indiceMes = mesSuperaMonto($tickets, $monto);
+    if ($indiceMes != -1)
     {
         echo "El primer mes en superar el monto ingresado es: \n";
-        infoMes($tickets, $juegoMasVendido, $i);
+        infoMes($tickets, $juegoMasVendido, $indiceMes);
     }
     else
     {
@@ -418,8 +399,39 @@ function mesSuperaMonto($tickets, $juegoMasVendido)
 }
 
 /**
- * Entran por paramtro todos los datos
- * Se imprime por pantalla los datos del mes que ingresó por parametro
+ * Se recorre el arreglo de $tickets
+ * En cada indice se verifica si el monto del mes es mayor al monto ingresado por parametro
+ * Si es verdadero, se termina de recorrer
+ * Caso contrario se sigue preguntando con los otros indices
+ * Si no se encontro un mes, el indice termina en -1 luego se devuelve el indice
+ * @param array 
+ * @return int
+ */
+function mesSuperaMonto($tickets, $monto)
+{
+    $encontrado = false;
+    $i = 0;
+    while (!$encontrado && $i < count($tickets))
+    {
+        if ($tickets[$i] > $monto)
+        {
+            $encontrado = true;
+        }
+        else
+        {
+            $i++;
+        }
+    }
+    if (!$encontrado)
+    {
+        $i = -1;
+    }
+    return $i;
+}
+
+/**
+ * Entran por paramtro los datos de los juegos vendidos
+ * Se imprime por pantalla los datos del mes que se ingresó por parametro
  * @param array 
  * @param array 
  * @param int 
